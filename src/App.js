@@ -1,39 +1,65 @@
-import React, { useEffect, useState } from "react";
-import Login from "./components/Login";
-import { getTokenFromURL } from "./spotify";
+import React, { useEffect } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
-import Player from "./components/Player";
 import { useDataLayerValue } from "./DataLayer";
+import Player from "./components/Player";
+import { getTokenFromURL } from "./spotify";
+import "./App.css";
+import Login from "./components/Login";
 
 const spotify = new SpotifyWebApi();
-
 function App() {
-  const [{ user, token }, dispatch] = useDataLayerValue();
+  const [{ token, user }, dispatch] = useDataLayerValue();
 
   useEffect(() => {
+    // Set token
     const hash = getTokenFromURL();
-    window.location.hash = ""; //ESTO LIMPIA LA URL
+    window.location.hash = "";
     const _token = hash.access_token;
 
     if (_token) {
-      dispatch({ type: "SET_TOKEN", token: _token });
+      spotify.setAccessToken(_token);
+      console.log(spotify.getMe());
+      spotify.getMe().then((user) => console.log(user));
 
-      spotify.setAccessToken(_token); //aca le setea el token a spotify
-      spotify.getMe().then((user) => {
-        console.log(":person", user);
-        dispatch({ type: "SET_USER", user });
-      }); //aca obtiene la cuenta del usuario y
+      dispatch({
+        type: "SET_TOKEN",
+        token: _token,
+      });
+
+      spotify.getPlaylist("37i9dQZEVXcJZyENOWUFo7").then((response) =>
+        dispatch({
+          type: "SET_DISCOVER_WEEKLY",
+          discover_weekly: response,
+        })
+      );
+
+      spotify.getMyTopArtists().then((response) =>
+        dispatch({
+          type: "SET_TOP_ARTISTS",
+          top_artists: response,
+        })
+      );
+
+      // dispatch({
+      //   type: "SET_SPOTIFY",
+      //   spotify: spotify,
+      // });
+
+      spotify.getUserPlaylists().then((playlists) => {
+        dispatch({
+          type: "SET_PLAYLISTS",
+          playlists,
+        });
+      });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  console.log("XD", token);
+  }, [token, dispatch]);
 
   return (
-    <>
-      <div className="app">
-        {token ? <Player spotify={spotify} /> : <Login />}
-      </div>
-    </>
+    <div className="app">
+      {!token && <Login />}
+      {token && <Player spotify={spotify} />}
+    </div>
   );
 }
+
 export default App;
