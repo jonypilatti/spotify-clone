@@ -1,15 +1,18 @@
 export const initialState = {
   user: null,
   playlists: [],
-  spotify: null,
-  discover_weekly: null,
   top_artists: null,
-  playing: false,
   item: null,
+  selectedPlaylistId: "37i9dQZEVXcEA9IsyFaHNY",
+  selectedPlaylist: null,
+  currentlyPlaying: null,
+  playerState: false,
+  availableDevices: [],
+  currentDevice: null,
 };
 
 const reducer = (state, action) => {
-  console.log(action);
+  // console.log(action);
   switch (action.type) {
     case "SET_PLAYING":
       return {
@@ -25,12 +28,6 @@ const reducer = (state, action) => {
         item: action.item,
       };
 
-    case "SET_DISCOVER_WEEKLY":
-      return {
-        ...state,
-        discover_weekly: action.discover_weekly,
-      };
-
     case "SET_TOP_ARTISTS":
       return {
         ...state,
@@ -43,17 +40,35 @@ const reducer = (state, action) => {
         token: action.token,
       };
 
-    case "SET_SPOTIFY":
+    case "SET_PLAYLIST":
       return {
         ...state,
-        spotify: action.spotify,
+        selectedPlaylist: action.selectedPlaylist,
       };
-
     case "SET_PLAYLISTS":
       return {
         ...state,
         playlists: action.playlists,
       };
+    case "GET_DEVICES":
+      return {
+        ...state,
+        availableDevices: action.availableDevices,
+      };
+    case "SET_DEVICES":
+      return {
+        ...state,
+        currentDevice: action.currentDevice,
+      };
+    case "CURRENTLY_PLAYING":
+      return {
+        ...state,
+        currentlyPlaying: action.currentlyPlaying,
+      };
+    case "SET_PLAYER_STATE":
+      return { ...state, playerState: action.playerState };
+    case "SET_PLAYLIST_ID":
+      return { ...state, selectedPlaylistId: action.selectedPlaylistId };
     default:
       return state;
   }
