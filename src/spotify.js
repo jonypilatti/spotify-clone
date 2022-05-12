@@ -4,6 +4,7 @@ const redirectUri = "http://localhost:3000/";
 const clientId = "cd7e529dfd6e4b7b93582f3d65fb0af2";
 
 const scopes = [
+  "streaming",
   "user-read-email",
   "user-read-private",
   "user-read-playback-position",
@@ -12,6 +13,8 @@ const scopes = [
   "user-read-playback-state",
   "user-top-read",
   "user-modify-playback-state",
+  "app-remote-control",
+  "playlist-modify-public",
 ];
 
 export const getTokenFromURL = () => {

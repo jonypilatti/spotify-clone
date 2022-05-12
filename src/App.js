@@ -4,7 +4,6 @@ import { useDataLayerValue } from "./DataLayer";
 import Player from "./components/Player";
 import { getTokenFromURL } from "./spotify";
 import Login from "./components/Login";
-import { Container } from "@mui/material";
 
 var spotify = new SpotifyWebApi();
 function App() {

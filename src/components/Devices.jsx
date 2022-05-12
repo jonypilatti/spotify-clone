@@ -28,7 +28,7 @@ function Devices() {
       type: item.type,
       volume_percent: item.volume_percent,
     }));
-    console.log(availableDevices);
+    // console.log(availableDevices);
     dispatch({ type: "GET_DEVICES", availableDevices });
   };
 

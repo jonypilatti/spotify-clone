@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+
 import SidebarOption from "./SidebarOption";
 import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
 import HomeIcon from "@mui/icons-material/Home";
@@ -8,28 +9,46 @@ import Playlists from "./Playlists";
 
 function Sidebar() {
   // console.log(playlists);
+  const [selected, setSelected] = useState("off");
 
   return (
     <Container>
       <div className="top__links">
-        <img
-          className="logo"
-          src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_White.png"
-          alt=""
-        />
+        <a href="#">
+          <img
+            className="logo"
+            src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_White.png"
+            alt=""
+          />
+        </a>
       </div>
       <ul>
         <li>
-          <SidebarOption Icon={HomeIcon} option="Home" />
-          <span>Home</span>
+          <SidebarOption
+            Icon={HomeIcon}
+            option="Home"
+            onClick={() => {
+              setSelected("on");
+            }}
+          />
         </li>
         <li>
-          <SidebarOption Icon={SearchIcon} option="Search" />
-          <span>Search</span>
+          <SidebarOption
+            Icon={SearchIcon}
+            onClick={() => {
+              setSelected("on");
+            }}
+            option="Search"
+          />
         </li>
         <li>
-          <SidebarOption Icon={LibraryMusicIcon} option="Your Library" />
-          <span>Your Library</span>
+          <SidebarOption
+            Icon={LibraryMusicIcon}
+            onClick={() => {
+              setSelected("on");
+            }}
+            option="Your Library"
+          />
         </li>
       </ul>
       <br />
@@ -51,10 +70,11 @@ const Container = styled.div`
     flex-direction: column;
     .logo {
       text-align: center;
-      margin: 1rem 0;
+      margin: 2rem 2rem;
     }
     img {
-      max-inline-size: 80%;
+      cursor: pointer;
+      max-inline-size: 54.7%;
       block-size: auto;
     }
   }
@@ -70,12 +90,12 @@ const Container = styled.div`
       gap: 1rem;
       cursor: pointer;
       transition: 0.3s ease-in-out;
+      margin: 0.5rem 1.1rem;
+      svg {
+        transform: scale(1.65);
+      }
       &:hover {
         color: white;
-      }
-      span {
-        font-size: 18px;
-        font-weight: 600;
       }
     }
   }

@@ -58,12 +58,37 @@ const Container = styled.div`
   gap: 1rem;
   input {
     margin-right: 2rem;
-    width: 10rem;
+    width: 9rem;
     border-radius: 2rem;
-    height: 0.5rem;
+    height: 0.29rem;
+    background: rgba(255, 255, 255, 0.6);
+    -webkit-appearance: none;
+    background-image: linear-gradient(#1db954, #1db954);
+    background-repeat: no-repeat;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 90%;
+    background: white;
+    box-shadow: 0 0 2px 0 #555;
+    transition: background 0.3s ease-in-out;
+  }
+
+  input::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    background-color: white;
+    box-shadow: none;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
   }
   label {
     color: white;
+    svg {
+      opacity: 0.7;
+    }
   }
 `;
 

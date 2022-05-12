@@ -42,7 +42,6 @@ function Body({ headerBackground }) {
       };
       dispatch({ type: "SET_PLAYLIST", selectedPlaylist });
     };
-
     getInitialPlaylist();
   }, [token, dispatch, selectedPlaylistId]);
   const msToMinutesAndSeconds = (ms) => {
@@ -50,7 +49,6 @@ function Body({ headerBackground }) {
     const seconds = ((ms % 60000) / 1000).toFixed(0);
     return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
   };
-
   const playTrack = async (
     id,
     name,
@@ -62,7 +60,7 @@ function Body({ headerBackground }) {
     const response = await axios.put(
       `https://api.spotify.com/v1/me/player/play`,
       {
-        context_uri,
+        context_uri: context_uri,
         offset: {
           position: track_number - 1,
         },
@@ -157,7 +155,7 @@ function Body({ headerBackground }) {
                         </div>
                         <div className="info">
                           <span className="name">{name}</span>
-                          <span>{artists}</span>
+                          <span className="artists">{artists}</span>
                         </div>
                       </div>
                       <div className="col">
@@ -183,32 +181,43 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     gap: 2rem;
+    box-sizing: border-box;
+    .type {
+      font-weight: 700;
+      margin-top: 2.4rem;
+    }
     .image {
       img {
-        height: 15rem;
+        margin-left: 0.55rem;
+        height: 19.5rem;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
       }
     }
     .details {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.3rem;
       color: #e0dede;
       .title {
+        padding: 0.08em 0px;
         color: white;
-        font-size: 4rem;
+        font-size: 96px;
+        line-height: 96px;
+        font-weight: 900;
+        cursor: pointer;
       }
     }
   }
   .list {
     .header__row {
       display: grid;
-      grid-template-columns: 0.3fr 3fr 2fr 0.1fr;
+      grid-template-columns: 0.18fr 2.3fr 2.5fr 0.1fr;
       color: #dddcdc;
-      margin: 1rem 0 0 0;
+      margin: 1rem 0 0 0.83rem;
       position: sticky;
       top: 15vh;
       padding: 1rem 3rem;
+      font-size: 1.2rem;
       transition: 0.3s ease-in-out;
       background-color: ${({ headerBackground }) =>
         headerBackground ? "#000000dc" : "none"};
@@ -221,7 +230,7 @@ const Container = styled.div`
       .row {
         padding: 0.5rem 1rem;
         display: grid;
-        grid-template-columns: 0.3fr 3.1fr 3fr 0.1fr;
+        grid-template-columns: 0.19fr 2.8fr 3fr 0.1fr;
         &:hover {
           background-color: rgba(0, 0, 0, 0.7);
         }
@@ -229,16 +238,27 @@ const Container = styled.div`
           display: flex;
           align-items: center;
           color: #dddcdc;
-          .img {
-            height: 40px;
-          }
+          font-size: 1.3rem;
+          margin-left: 1rem;
         }
         .detail {
+          img {
+            height: 50px;
+          }
           display: flex;
           gap: 1rem;
           .info {
             display: flex;
             flex-direction: column;
+            font-weight: 600;
+            font-size: 1.35rem;
+            line-height: 1.6rem;
+            text-transform: none;
+            letter-spacing: normal;
+            .artists {
+              font-size: 1rem;
+              color: #a9a9a9;
+            }
           }
         }
       }
