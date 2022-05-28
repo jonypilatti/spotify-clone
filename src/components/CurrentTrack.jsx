@@ -2,10 +2,10 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDataLayerValue } from "../DataLayer";
-import Devices from "./Devices";
 
 function CurrentTrack() {
-  const [{ token, currentlyPlaying }, dispatch] = useDataLayerValue();
+  const [{ token, currentlyPlaying, currentDevice }, dispatch] =
+    useDataLayerValue();
   useEffect(() => {
     const getCurrentTrack = async () => {
       const response = await axios.get(
@@ -29,7 +29,7 @@ function CurrentTrack() {
       }
     };
     getCurrentTrack();
-  }, [token, currentlyPlaying, dispatch]);
+  }, [currentlyPlaying, token, dispatch, currentDevice]);
   return (
     <Container>
       {currentlyPlaying && (
@@ -50,13 +50,18 @@ const Container = styled.div`
   .track {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
+    img {
+      width: 88%;
+    }
     &__info {
       display: flex;
       flex-direction: column;
       gap: 0.3rem;
       h4 {
         color: white;
+        font-weight: 400;
+        font-size: 14px;
       }
       h6 {
         color: #b3b3b3;

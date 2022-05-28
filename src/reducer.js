@@ -12,6 +12,13 @@ export const initialState = {
   playbackState: null,
   repeatState: "off",
   shuffleState: "false",
+  searchResults: null,
+  tracksResults: null,
+  albumResults: null,
+  artistsResults: null,
+  setAlbumSearch: null,
+  TopTracks: null,
+  ArtistInfo: null,
 };
 
 const reducer = (state, action) => {
@@ -81,6 +88,26 @@ const reducer = (state, action) => {
       return { ...state, repeatState: action.repeatState };
     case "SET_SHUFFLE":
       return { ...state, shuffleState: action.shuffleState };
+    case "SEARCH_RESULTS":
+      return { ...state, searchResults: action.searchResults };
+    case "SEARCH_TRACKS":
+      return {
+        ...state,
+        tracksResults: action.tracksResults,
+      };
+    case "SEARCH_ARTISTS":
+      return {
+        ...state,
+        artistsResults: action.artistsResults,
+      };
+    case "SEARCH_ALBUMS":
+      return { ...state, albumResults: action.albumResults };
+    case "SET_ALBUM_SEARCH":
+      return { ...state, setAlbumSearch: action.setAlbumSearch };
+    case "SET_ARTISTS_TOP_TRACKS":
+      return { ...state, TopTracks: action.TopTracks };
+    case "GET_ARTIST":
+      return { ...state, ArtistInfo: action.ArtistInfo };
     default:
       return state;
   }

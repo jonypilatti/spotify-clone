@@ -141,7 +141,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
+  gap: 1.2rem;
   svg {
     color: #b3b3b3;
     transition: 0.1s ease-in-out;
@@ -150,10 +150,10 @@ const Container = styled.div`
     }
   }
   .shuffle {
-    transform: scale(1.5);
+    transform: scale(1.1);
   }
   .repeat {
-    transform: scale(1.5);
+    transform: scale(1.1);
   }
   .state {
     svg {
@@ -163,7 +163,7 @@ const Container = styled.div`
   .previous,
   .next,
   .state {
-    transform: scale(1.5);
+    transform: scale(1.1);
     font-size: 2rem;
   }
 `;

@@ -1,13 +1,18 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useDataLayerValue } from "../DataLayer";
+import DevicesImg from "../image/connect_header@1x.8f827808.png";
+import ComputerIcon from "@mui/icons-material/Computer";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 function DevicesHandler() {
   const [
     { token, availableDevices, currentlyPlaying, playbackState },
     dispatch,
   ] = useDataLayerValue();
+  const [showDevices, setShowDevices] = useState(true);
   const setDevice = async (id) => {
     await axios.put(
       "https://api.spotify.com/v1/me/player",
@@ -23,18 +28,153 @@ function DevicesHandler() {
 
   return (
     <Container>
-      <div className="icons"></div>
-      {availableDevices?.map((device) => (
-        <button onClick={() => setDevice(device.id)}>
-          {(device?.type, device?.name)}
-        </button>
-      ))}
+      <div className="icons">
+        <div className="headerLine">
+          <h3 className="header">Connect to a device</h3>
+          <a
+            href="https://www.spotify.com/connect/?utm_source=wp-picker&utm_medium=web"
+            className="helpIcon"
+          >
+            <HelpOutlineIcon style={{ fontSize: "large" }} />
+          </a>
+        </div>
+        <div classname="connectHeader">
+          <img src={DevicesImg} alt="devices"></img>
+        </div>
+        <div className="devices">
+          {availableDevices?.map((device) => (
+            <ul>
+              <div onClick={() => setDevice(device.id)}>
+                <button className="device__info">
+                  <a>
+                    <p className="device__icon">
+                      {device?.type == "Computer" ? (
+                        <ComputerIcon />
+                      ) : (
+                        device.type
+                      )}
+                    </p>
+                    <p className="device__name">
+                      {device?.name}
+                      <p>
+                        {playbackState == true ? (
+                          <p className="device__status">
+                            <VolumeUpIcon />
+                            Este navegador web
+                          </p>
+                        ) : (
+                          <p className="device__status">
+                            <VolumeUpIcon />
+                            Spotify connect
+                          </p>
+                        )}
+                      </p>
+                    </p>
+                  </a>
+                </button>
+              </div>
+            </ul>
+          ))}
+        </div>
+      </div>
     </Container>
   );
 }
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: fixed;
+  bottom: 5rem;
+  right: 7.5rem;
+  max-height: calc(100vh - 114px);
   color: white;
-  background-color: white;
+  font-size: 12px;
+  padding: 5px;
+  z-index: 25;
+  width: 18rem;
+  background-color: #181818;
+  border: 0;
+  box-shadow: 0 16px 24px rgb(0 0 0 / 30%), 0 6px 8px rgb(0 0 0 / 20%);
+  .headerLine {
+    display: flex;
+    flex-direction: row;
+    border: 0;
+    .header {
+      display: block;
+      align-items: center;
+      justify-content: center;
+      align-self: center;
+      text-align: center;
+      font-size: 23px;
+      font-weight: 700;
+      padding: 14px 35px 10px 14px;
+    }
+    .helpIcon {
+      right: 0.5rem;
+      top: 1.3rem;
+      position: absolute;
+      color: white;
+    }
+  }
+  .connectHeader {
+    text-align: center;
+  }
+  img {
+    width: 100%;
+    padding: 2rem;
+    color: transparent;
+    background-color: transparent;
+  }
+  ul {
+    position: relative;
+  }
+  .device__info {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    touch-action: manipulation;
+    align-items: center;
+    text-align: left;
+    width: 100%;
+    padding: 10px 15 px;
+    border: 0;
+    color: white;
+    position: relative;
+    background-color: transparent;
+    height: 3.5rem;
+
+    &:hover {
+      background-color: #282828;
+    }
+    &:focus {
+      color: #1db954;
+    }
+    a {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: row;
+      position: relative;
+      gap: 1rem;
+      padding: 0.6rem;
+    }
+    p {
+      display: flex;
+      flex-direction: column;
+      vertical-align: middle;
+      .device__status {
+        flex-direction: row;
+        font-size: 11px;
+        gap: 0.1rem;
+        align-items: center;
+        svg {
+          font-size: 10px;
+        }
+      }
+    }
+  }
 `;
 
 export default DevicesHandler;

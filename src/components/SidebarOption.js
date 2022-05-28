@@ -14,7 +14,7 @@ const Container = styled.div`
   align-items: center;
   flex-direction: row;
   gap: 1.2rem;
-  font-size: 19px;
+  font-size: 13px;
   font-weight: 600;
 `;
 

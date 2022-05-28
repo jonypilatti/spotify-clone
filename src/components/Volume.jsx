@@ -58,7 +58,7 @@ const Container = styled.div`
   gap: 1rem;
   input {
     margin-right: 2rem;
-    width: 9rem;
+    width: 7rem;
     border-radius: 2rem;
     height: 0.29rem;
     background: rgba(255, 255, 255, 0.6);
