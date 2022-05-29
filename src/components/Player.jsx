@@ -8,7 +8,7 @@ import DevicesHandler from "./DevicesHandler.jsx";
 
 function Player({ isOpen, setIsOpen }) {
   const [{ token, user }, dispatch] = useDataLayerValue();
-  console.log(user);
+  // console.log(user);
   const bodyRef = useRef();
   const [navbar, setNavbar] = useState(false);
   const [navBackground, setNavBackground] = useState(false);

@@ -1,18 +1,20 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDataLayerValue } from "../DataLayer";
 import DevicesImg from "../image/connect_header@1x.8f827808.png";
 import ComputerIcon from "@mui/icons-material/Computer";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import { FiSmartphone } from "react-icons/fi";
+import { IosShare } from "@mui/icons-material";
 
-function DevicesHandler() {
+function DevicesHandler(e, id) {
   const [
     { token, availableDevices, currentlyPlaying, playbackState },
     dispatch,
   ] = useDataLayerValue();
-  const [showDevices, setShowDevices] = useState(true);
+  const [selectedId, setSelectedId] = useState(availableDevices[0]?.id);
   const setDevice = async (id) => {
     await axios.put(
       "https://api.spotify.com/v1/me/player",
@@ -25,6 +27,20 @@ function DevicesHandler() {
       }
     );
   };
+  useEffect(() => {}, [selectedId]);
+  function colorSelected(id) {
+    setSelectedId(id);
+    var z = document.getElementsByClassName("device__info");
+    let arrayNumbers = [];
+    for (var i = 0; i < z.length; i++) {
+      arrayNumbers.push(z.item(i).id);
+    }
+    arrayNumbers.map((el) =>
+      el !== selectedId
+        ? (document.getElementById(el).style.color = "white")
+        : (document.getElementById(el).style.color = "green")
+    );
+  }
 
   return (
     <Container>
@@ -43,37 +59,46 @@ function DevicesHandler() {
         </div>
         <div className="devices">
           {availableDevices?.map((device) => (
-            <ul>
-              <div onClick={() => setDevice(device.id)}>
-                <button className="device__info">
-                  <a>
-                    <p className="device__icon">
-                      {device?.type == "Computer" ? (
-                        <ComputerIcon />
+            <tr key={device.id}>
+              <td
+                onClick={(e) => {
+                  setDevice(e, device.id);
+                }}
+              >
+                <button
+                  onClick={() => colorSelected(device.id)}
+                  className="device__info"
+                  id={device.id}
+                  style={{ width: "100" }}
+                >
+                  <p className="device__icon">
+                    {device?.type == "Computer" ? (
+                      <ComputerIcon style={{ fontSize: "28px" }} />
+                    ) : (
+                      device?.type == "Smartphone" && (
+                        <FiSmartphone style={{ fontSize: "28px" }} />
+                      )
+                    )}
+                  </p>
+                  <p className="device__name">
+                    {device?.name}
+                    <p>
+                      {playbackState == true ? (
+                        <p className="device__status">
+                          <VolumeUpIcon />
+                          Este navegador web
+                        </p>
                       ) : (
-                        device.type
+                        <p className="device__status">
+                          <VolumeUpIcon />
+                          Spotify connect
+                        </p>
                       )}
                     </p>
-                    <p className="device__name">
-                      {device?.name}
-                      <p>
-                        {playbackState == true ? (
-                          <p className="device__status">
-                            <VolumeUpIcon />
-                            Este navegador web
-                          </p>
-                        ) : (
-                          <p className="device__status">
-                            <VolumeUpIcon />
-                            Spotify connect
-                          </p>
-                        )}
-                      </p>
-                    </p>
-                  </a>
+                  </p>
                 </button>
-              </div>
-            </ul>
+              </td>
+            </tr>
           ))}
         </div>
       </div>
@@ -126,9 +151,6 @@ const Container = styled.div`
     color: transparent;
     background-color: transparent;
   }
-  ul {
-    position: relative;
-  }
   .device__info {
     display: flex;
     flex-direction: row;
@@ -136,19 +158,20 @@ const Container = styled.div`
     touch-action: manipulation;
     align-items: center;
     text-align: left;
-    width: 100%;
     padding: 10px 15 px;
     border: 0;
     color: white;
     position: relative;
     background-color: transparent;
     height: 3.5rem;
-
+    width: 17.5rem;
+    tr {
+      width: 100%;
+      position: relative;
+    }
     &:hover {
       background-color: #282828;
-    }
-    &:focus {
-      color: #1db954;
+    } 
     }
     a {
       display: flex;
@@ -156,9 +179,18 @@ const Container = styled.div`
       justify-content: flex-start;
       align-items: center;
       flex-direction: row;
+      touch-action: manipulation;
       position: relative;
       gap: 1rem;
+      text-align: left;
       padding: 0.6rem;
+      text-decoration: none;
+      selected:none;
+      user-select: none;
+      &:visited{
+        color:white;
+        text-decoration:none;
+      }
     }
     p {
       display: flex;
