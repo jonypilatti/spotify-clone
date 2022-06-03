@@ -9,16 +9,14 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { FiSmartphone } from "react-icons/fi";
 import { IosShare } from "@mui/icons-material";
 
-function DevicesHandler(e, id) {
-  const [
-    { token, availableDevices, currentlyPlaying, playbackState },
-    dispatch,
-  ] = useDataLayerValue();
+function DevicesHandler() {
+  const [{ token, availableDevices, playerState, playbackState }, dispatch] =
+    useDataLayerValue();
   const [selectedId, setSelectedId] = useState(availableDevices[0]?.id);
-  const setDevice = async (id) => {
-    await axios.put(
+  useEffect(() => {
+    axios.put(
       "https://api.spotify.com/v1/me/player",
-      { device_ids: [id], play: false },
+      { device_ids: [selectedId], play: false },
       {
         headers: {
           Authorization: "Bearer " + token,
@@ -26,22 +24,28 @@ function DevicesHandler(e, id) {
         },
       }
     );
-  };
-  useEffect(() => {}, [selectedId]);
-  function colorSelected(id) {
-    setSelectedId(id);
-    var z = document.getElementsByClassName("device__info");
+    console.log("me ejecuto");
     let arrayNumbers = [];
-    for (var i = 0; i < z.length; i++) {
-      arrayNumbers.push(z.item(i).id);
+    for (
+      var i = 0;
+      i < document.getElementsByClassName("device__info")?.length;
+      i++
+    ) {
+      arrayNumbers.push(
+        document.getElementsByClassName("device__info")?.item(i)?.id
+      );
     }
     arrayNumbers.map((el) =>
       el !== selectedId
         ? (document.getElementById(el).style.color = "white")
-        : (document.getElementById(el).style.color = "green")
+        : (document.getElementById(el).style.color = "#1db954")
     );
-  }
 
+    dispatch({ type: "SET_PLAYER_STATE", playerState: false });
+  }, [selectedId]);
+
+  console.log(selectedId);
+  console.log(availableDevices);
   return (
     <Container>
       <div className="icons">
@@ -54,19 +58,15 @@ function DevicesHandler(e, id) {
             <HelpOutlineIcon style={{ fontSize: "large" }} />
           </a>
         </div>
-        <div classname="connectHeader">
+        <div className="connectHeader">
           <img src={DevicesImg} alt="devices"></img>
         </div>
         <div className="devices">
           {availableDevices?.map((device) => (
             <tr key={device.id}>
-              <td
-                onClick={(e) => {
-                  setDevice(e, device.id);
-                }}
-              >
+              <td>
                 <button
-                  onClick={() => colorSelected(device.id)}
+                  onClick={() => setSelectedId(device.id)}
                   className="device__info"
                   id={device.id}
                   style={{ width: "100" }}
@@ -81,20 +81,35 @@ function DevicesHandler(e, id) {
                     )}
                   </p>
                   <p className="device__name">
-                    {device?.name}
-                    <p>
-                      {playbackState == true ? (
+                    {device.id == selectedId
+                      ? "Escuchando en"
+                      : !device.name.includes("Web Player") &&
+                        device.type == "Computer"
+                      ? "Este ordenador"
+                      : device.name}
+                    <div>
+                      {device.id ===
+                        availableDevices.find((el) => el.id == selectedId).id &&
+                      device.type == "Computer" &&
+                      !device.name.includes("Web Player") ? (
                         <p className="device__status">
                           <VolumeUpIcon />
-                          Este navegador web
+                          Este ordenador
+                        </p>
+                      ) : selectedId !== device.id ? (
+                        <p className="device__status">
+                          <VolumeUpIcon />
+                          Spotify Connect
                         </p>
                       ) : (
-                        <p className="device__status">
-                          <VolumeUpIcon />
-                          Spotify connect
-                        </p>
+                        selectedId == device.id && (
+                          <p className="device__status">
+                            <VolumeUpIcon />
+                            {device.name}
+                          </p>
+                        )
                       )}
-                    </p>
+                    </div>
                   </p>
                 </button>
               </td>
@@ -165,6 +180,7 @@ const Container = styled.div`
     background-color: transparent;
     height: 3.5rem;
     width: 17.5rem;
+    gap:1rem;
     tr {
       width: 100%;
       position: relative;
@@ -192,6 +208,7 @@ const Container = styled.div`
         text-decoration:none;
       }
     }
+  
     p {
       display: flex;
       flex-direction: column;
@@ -199,7 +216,7 @@ const Container = styled.div`
       .device__status {
         flex-direction: row;
         font-size: 11px;
-        gap: 0.1rem;
+        gap: 0.2rem;
         align-items: center;
         svg {
           font-size: 10px;

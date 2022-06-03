@@ -1,26 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { IconContext } from "react-icons";
 import { useDataLayerValue } from "../DataLayer";
 import { Avatar } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Searchbar from "./Searchbar";
 import AvatarPlayButton from "./AvatarPlayButton";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import AvatarDropdown from "./AvatarDropdown";
+import { Navigation } from "@mui/icons-material";
 
 function Navbar({ navBackground, navbar, setFilter }) {
-  const [{ user }, dispatch] = useDataLayerValue();
+  const [{ NavigationHistory, user }, dispatch] = useDataLayerValue();
+
   const navigate = useNavigate();
   const [avatarDisplay, setAvatarDisplay] = useState(false);
+  const [url, setUrl] = useState(window.location.href);
+  console.log(url);
+
+  // useEffect(() => {
+  //   localStorage.setItem("history", JSON.stringify(NavigationHistory));
+  // }, [url]);
+
+  function isForwardPossible() {}
+
+  async function NavigateForward() {
+    NavigationHistory?.push(url);
+    dispatch({ type: "NAVIGATION_HISTORY", payload: NavigationHistory });
+    navigate(+1);
+  }
+  function NavigateBackwards() {
+    NavigationHistory?.push(url);
+    dispatch({ type: "NAVIGATION_HISTORY", payload: NavigationHistory });
+    navigate(-1);
+  }
+  console.log(NavigationHistory);
 
   return (
     <Container navBackground={navBackground}>
       <div className="buttoncontroller">
-        <IoIosArrowBack className="buttons" onClick={() => navigate(-1)} />
-
-        <IoIosArrowForward className="buttons" onClick={() => navigate(+1)} />
+        <IoIosArrowBack
+          className="buttons"
+          onClick={() => NavigateBackwards()}
+        />
+        {/* {isForwardPossible() ? ( */}
+        <IoIosArrowForward
+          className="buttons"
+          onClick={() => NavigateForward()}
+        />
+        {/* ) : (
+          <IoIosArrowForward className="buttons" style={{ opacity: "0.4" }} />
+        )} */}
         {window.location.pathname === "/" ? (
           <AvatarPlayButton navbar={navbar}></AvatarPlayButton>
         ) : null}

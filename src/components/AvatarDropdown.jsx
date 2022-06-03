@@ -4,7 +4,6 @@ import { BsBoxArrowUpRight } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
 function AvatarDropdown() {
-  const navigate = useNavigate();
   const LogOutHandler = () => {
     localStorage.clear();
     window.location.replace("");
@@ -12,8 +11,15 @@ function AvatarDropdown() {
   return (
     <Container>
       <ul>
-        <li>
-          Account <BsBoxArrowUpRight style={{ color: "white" }} />
+        <li
+          onClick={() =>
+            window.location.replace(
+              "https://www.spotify.com/bo/account/overview/?utm_source=spotify&utm_medium=menu&utm_campaign=your_account"
+            )
+          }
+        >
+          Account
+          <BsBoxArrowUpRight style={{ color: "white" }} />
         </li>
         <li>Profile</li>
         <li onClick={() => LogOutHandler()}>Log out</li>

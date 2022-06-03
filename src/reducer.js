@@ -19,6 +19,7 @@ export const initialState = {
   setAlbumSearch: null,
   TopTracks: null,
   ArtistInfo: null,
+  NavigationHistory: [],
 };
 
 const reducer = (state, action) => {
@@ -108,6 +109,8 @@ const reducer = (state, action) => {
       return { ...state, TopTracks: action.TopTracks };
     case "GET_ARTIST":
       return { ...state, ArtistInfo: action.ArtistInfo };
+    case "NAVIGATION_HISTORY":
+      return { ...state, NavigationHistory: action.NavigationHistory };
     default:
       return state;
   }
