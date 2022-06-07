@@ -17,7 +17,7 @@ function Navbar({ navBackground, navbar, setFilter }) {
   const navigate = useNavigate();
   const [avatarDisplay, setAvatarDisplay] = useState(false);
   const [url, setUrl] = useState(window.location.href);
-  console.log(url);
+  // console.log(url);
 
   // useEffect(() => {
   //   localStorage.setItem("history", JSON.stringify(NavigationHistory));
@@ -35,7 +35,7 @@ function Navbar({ navBackground, navbar, setFilter }) {
     dispatch({ type: "NAVIGATION_HISTORY", payload: NavigationHistory });
     navigate(-1);
   }
-  console.log(NavigationHistory);
+  // console.log(NavigationHistory);
 
   return (
     <Container navBackground={navBackground}>
@@ -96,7 +96,7 @@ const Container = styled.div`
   block-size: 4rem;
   width: 100%;
   background-color: ${({ navBackground }) =>
-    navBackground ? "rgb(32, 87, 100)" : "transparent"};
+    navBackground ? "transparent" : "transparent"};
   .buttoncontroller {
     display: flex;
     align-items: center;
@@ -152,7 +152,6 @@ const Container = styled.div`
       font-weight: bold;
       .avatarDropdown {
         position: relative;
-        background-color: transparent;
         font-size: 32px;
         color: white;
         align-items: flex-start;

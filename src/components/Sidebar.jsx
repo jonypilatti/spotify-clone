@@ -54,6 +54,7 @@ const Container = styled.div`
   flex-direction: column;
   height: 100%;
   width: 100%;
+  overflow: hidden;
   .top__links {
     display: flex;
     flex-direction: column;

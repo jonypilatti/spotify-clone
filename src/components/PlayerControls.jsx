@@ -100,7 +100,7 @@ function PlayerControls() {
     );
     dispatch({ type: "SET_PLAYER_STATE", playerState: !playerState });
   };
-  console.log(playerState);
+  // console.log(playerState);
   return (
     <Container>
       <div className="shuffle">

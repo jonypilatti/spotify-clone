@@ -5,7 +5,8 @@ import Avatar from "./Avatar";
 import styled from "styled-components";
 import axios from "axios";
 import { GoVerified, GoUnverified } from "react-icons/go";
-import { IconContext } from "react-icons";
+import ArtistTopTracks from "./ArtistTopTracks";
+import ArtistTopAlbums from "./ArtistTopAlbums";
 
 function ArtistPlaylist() {
   const [{ token, user, setAlbumSearch, TopTracks, ArtistInfo }, dispatch] =
@@ -35,8 +36,8 @@ function ArtistPlaylist() {
     localStorage.getItem("spotify.user", JSON.stringify(user));
   }, [token, user]);
   //   console.log(setAlbumSearch);
-  console.log(TopTracks, "Top Tracks");
-  console.log(ArtistInfo, "Artist info");
+  // console.log(TopTracks, "Top Tracks");
+  // console.log(ArtistInfo, "Artist info");
 
   const playAlbum = async (id, name, artists, image, uri, track_number) => {
     console.log(uri);
@@ -96,27 +97,27 @@ function ArtistPlaylist() {
       dispatch({ type: "SET_PLAYER_STATE", playerState: true });
     } else dispatch({ type: "SET_PLAYER_STATE", playerState: true });
   };
-
-  const Image = ArtistInfo[0].images[0].url;
+  const Image = ArtistInfo[0]?.images[0]?.url;
   const Name = ArtistInfo[0]?.name;
   const Followers = ArtistInfo[0].followers.total;
+  // console.log(TopTracks, "Toptracks");
+  let LimitedAlbumSearch = [];
+  for (let i = 0; i < 5; i++) {
+    LimitedAlbumSearch.push(setAlbumSearch[0].items[i]);
+  }
+  // console.log(LimitedAlbumSearch, "LimitedAlbumSearch");
   return (
     <Container>
       <div className="all">
         <div className="player__body">
           <Sidebar />
           <div className="body" ref={bodyRef} onScroll={bodyScrolled}>
+            <div className="body__avatar" ref={bodyRef} onScroll={bodyScrolled}>
+              <Avatar navBackground={navBackground} navbar={navbar} />
+            </div>
             <div className="god">
-              <div
-                className="body__avatar"
-                ref={bodyRef}
-                onScroll={bodyScrolled}
-              >
-                <Avatar navBackground={navBackground} navbar={navbar} />
-              </div>
-
               <div className="header" id="header">
-                <img src={Image} alt="header"></img>
+                <img src={Image} alt="header" />
                 {Followers > 250 ? (
                   <div>
                     <p className="description">
@@ -136,75 +137,9 @@ function ArtistPlaylist() {
                 <p className="description2">{Followers} oyentes mensuales</p>
               </div>
             </div>
-            <div className="songs">
-              {TopTracks?.map((el) =>
-                el.tracks.map((el2) => {
-                  return (
-                    <div>
-                      <div>{el2.album?.name}</div>
-                      <div>{el2.artists.map((el) => el.name)}</div>
-                      <img src={el2.album?.images[2]?.url} alt="trackimage" />
-                    </div>
-                  );
-                })
-              )}
-            </div>
-            <div className="body__contents">
-              Discography
-              {setAlbumSearch?.map((el) =>
-                el.items?.map(
-                  (
-                    {
-                      id,
-                      name,
-                      artists,
-                      images,
-                      duration_ms,
-                      album,
-                      uri,
-                      track_number,
-                    },
-                    index
-                  ) => {
-                    return (
-                      images[1]?.url && (
-                        <div
-                          className="row"
-                          key={id}
-                          onClick={() =>
-                            playAlbum(
-                              id,
-                              name,
-                              artists,
-                              images,
-                              uri,
-                              track_number
-                            )
-                          }
-                        >
-                          <div className="col detail">
-                            <div className="card">
-                              <div className="image">
-                                <img src={images[1]?.url} alt="track" />
-                              </div>
-                              <span className="name">
-                                {name?.length < 18
-                                  ? name
-                                  : name.substring(0, 18) + "..."}
-                              </span>
-                              <div className="info">
-                                <span className="artists">
-                                  <span>Artista </span>
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )
-                    );
-                  }
-                )
-              )}
+            <div className="display">
+              <ArtistTopTracks />
+              <ArtistTopAlbums />
             </div>
           </div>
         </div>
@@ -215,20 +150,14 @@ function ArtistPlaylist() {
 const Container = styled.div`
   max-width: 100vw;
   max-height: 100vh;
-  overflow: auto;
   display: grid;
-  grid-template-rows: 100vh;
+  grid-template-rows: 85vh;
   overflow-x: hidden;
-  overflow-y: scroll;
-  .god {
-    position: relative;
-    display: inline-block;
-    text-align: center;
-  }
   .header {
     display: inline-block;
     vertical-align: top;
     position: relative;
+    overflow: none;
     img {
       aspect-ratio: 3.2/1;
       object-fit: cover;
@@ -329,12 +258,14 @@ const Container = styled.div`
         }
       }
     }
-  }
-  .body__avatar {
-    position: sticky;
-    align-self: flex-start;
-    z-index: 10;
-    top: 0;
+    .body__avatar {
+      position: sticky;
+      align-self: flex-start;
+      z-index: 10;
+      background-color: ${({ navBackground }) =>
+        navBackground ? "rgb(32, 87, 100)" : "transparent"};
+      top: 0;
+    }
   }
   .footer {
     height: 91px;
@@ -348,6 +279,28 @@ const Container = styled.div`
         background-color: rgba(255, 255, 255, 0.6);
       }
     }
+  }
+
+  .header__row {
+    display: grid;
+    grid-template-columns: 0.175fr 2.3fr 2.3fr 0.09fr;
+    color: #dddcdc;
+    margin: 1rem 0 0 0rem;
+    position: sticky;
+    top: 9vh;
+    padding: 1rem 3rem;
+    font-size: 1rem;
+    transition: 0.3s ease-in-out;
+    border-bottom: 1px solid transparent;
+    background-color: ${({ headerBackground }) =>
+      headerBackground ? "#1f1e1e" : "none"};
+  }
+  .display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10rem;
+    overflow-x: hidden;
   }
 `;
 export default ArtistPlaylist;

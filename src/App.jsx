@@ -64,11 +64,7 @@ function App() {
         <Route path="/search" element={<Search></Search>}></Route>
         <Route path="/search/:id" element={<ArtistPlaylist></ArtistPlaylist>} />
       </Routes>
-      {token && (
-        <div className="footer">
-          <Footer isOpen={isOpen} setIsOpen={setIsOpen}></Footer>
-        </div>
-      )}
+      {token && <Footer isOpen={isOpen} setIsOpen={setIsOpen}></Footer>}
     </Container>
   );
 }
@@ -76,25 +72,15 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
+  height: 100vh;
   max-height: 100vh;
   max-width: 100vw;
+  overflow-x: hidden;
 
   &::-webkit-scrollbar {
-    width: 0.7rem;
+    overflow-x: none;
     &-thumb {
       background-color: rgba(255, 255, 255, 0.6);
-    }
-  }
-  .footer {
-    overflow: hidden;
-    position: relative;
-    height: 91px;
-    width: 100%;
-    &::-webkit-scrollbar {
-      width: 0.7rem;
-      &-thumb {
-        background-color: rgba(255, 255, 255, 0.6);
-      }
     }
   }
 `;
