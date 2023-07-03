@@ -68,6 +68,9 @@ const Container = styled.div`
       block-size: auto;
     }
   }
+  .sidebar__title{
+    margin-left:1rem;
+  }
   ul {
     list-style-type: none;
     display: flex;

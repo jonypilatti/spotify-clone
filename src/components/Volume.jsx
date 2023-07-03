@@ -27,6 +27,23 @@ function Volume() {
   };
   const volume = parseInt(document.getElementById("volume")?.value);
   // console.log(volume);
+  const rangeInputs = document.querySelectorAll('input[type="range"]')
+
+function handleInputChange(e) {
+  let target = e.target
+  if (e.target.type !== 'range') {
+    target = document.getElementById('volume')
+  } 
+  const min = target.min
+  const max = target.max
+  const val = target.value
+  
+  target.style.backgroundSize = (val - min) * 100 / (max - min) + '% 100%'
+}
+
+rangeInputs?.forEach(input => {
+  input.addEventListener('input', handleInputChange)
+})
 
   return (
     <Container>
@@ -46,7 +63,7 @@ function Volume() {
         id="volume"
         min={0}
         max={100}
-        onMouseUp={(e) => setVolume(e)}
+        onChange={(e) =>  setVolume(e) && handleInputChange(e)}
       />
     </Container>
   );
@@ -56,34 +73,53 @@ const Container = styled.div`
   justify-content: flex-end;
   align-items: center;
   gap: 1rem;
-  input {
-    margin-right: 2rem;
-    width: 7rem;
-    border-radius: 2rem;
-    height: 0.29rem;
-    background: rgba(255, 255, 255, 0.6);
+  input[type="range"] {
+  -webkit-appearance: none;
+  margin-right: 15px;
+  width: 6.1rem;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 5px;
+  background-image: linear-gradient(white, white);
+  background-size: 50% 100%;
+  background-repeat: no-repeat;
+
+}
+input[type="range"]:hover{
+  background-image: linear-gradient(#1db954, #1db954);
+  background-size: 50% 100%;
+  background-repeat: no-repeat;
+  &::-webkit-slider-thumb {
     -webkit-appearance: none;
-    background-image: linear-gradient(#1db954, #1db954);
-    background-repeat: no-repeat;
-  }
+    display:block;
+}
+&::-webkit-slider-runnable-track{
+  display:block;
+}
+}
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    height: 16px;
-    width: 16px;
+    height: 12px;
+    width: 12px;
     border-radius: 90%;
     background: white;
     box-shadow: 0 0 2px 0 #555;
     transition: background 0.3s ease-in-out;
+   display:none;
   }
 
   input::-webkit-slider-runnable-track {
     -webkit-appearance: none;
-    background-color: white;
+    display:none;
     box-shadow: none;
-    border-radius: 50%;
+    border-radius: 20%;
     border: none;
-    background: transparent;
+    width:100%;
+    &:hover{
+      display:block;
+    }
   }
+
   label {
     color: white;
     svg {

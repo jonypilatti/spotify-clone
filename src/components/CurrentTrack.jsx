@@ -3,43 +3,18 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDataLayerValue } from "../DataLayer";
 
-function CurrentTrack() {
-  const [{ token, currentlyPlaying, currentDevice }, dispatch] =
-    useDataLayerValue();
-  useEffect(() => {
-    const getCurrentTrack = async () => {
-      const response = await axios.get(
-        "https://api.spotify.com/v1/me/player/currently-playing",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.data !== "") {
-        const { item } = response.data;
-        const currentlyPlaying = {
-          id: item.id,
-          name: item.name,
-          artists: item.artists.map((artist) => artist.name),
-          image: item.album.images[2].url,
-        };
-        dispatch({ type: "CURRENTLY_PLAYING", currentlyPlaying });
-      }
-    };
-    getCurrentTrack();
-  }, [currentlyPlaying, token, dispatch, currentDevice]);
+function CurrentTrack({currentlyPlaying}) {
+  // console.log(currentlyPlaying,"CURRENTLYPLAYINH")
   return (
     <Container>
-      {currentlyPlaying && (
+      {currentlyPlaying && currentlyPlaying?.image && (
         <div className="track">
           <div className="track__image">
-            <img src={currentlyPlaying.image} alt="currentlyplaying" />
+            <img src={currentlyPlaying.image} alt="currentlyplaying" /> 
           </div>
           <div className="track__info">
-            <h4>{currentlyPlaying.name}</h4>
-            <h6>{currentlyPlaying.artists.join(", ")}</h6>
+            <h4>{currentlyPlaying?.name}</h4>
+            <h6>{currentlyPlaying?.artists?.join(", ")}</h6>
           </div>
         </div>
       )}

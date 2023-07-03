@@ -48,7 +48,6 @@ function App() {
   }, [token, dispatch]);
 
   const [isOpen, setIsOpen] = useState(false);
-
   return (
     <Container>
       <Routes>

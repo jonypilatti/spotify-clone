@@ -157,7 +157,6 @@ const Container = styled.div`
     display: inline-block;
     vertical-align: top;
     position: relative;
-    overflow: none;
     img {
       aspect-ratio: 3.2/1;
       object-fit: cover;

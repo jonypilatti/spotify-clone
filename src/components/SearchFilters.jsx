@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 function SearchFilters({ setFilter, filter }) {
-  console.log(filter);
+  // console.log(filter);
 
   return (
     <Container>

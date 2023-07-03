@@ -20,6 +20,10 @@ export const initialState = {
   TopTracks: null,
   ArtistInfo: null,
   NavigationHistory: [],
+  currentlyPlayingDuration:null,
+  searchTopArtists:null,
+  searchTopTracks:null,
+  Categories:null
 };
 
 const reducer = (state, action) => {
@@ -30,6 +34,11 @@ const reducer = (state, action) => {
         ...state,
         playing: action.playing,
       };
+      case "CURRENTLY_PLAYING_DURATION":
+        return{
+          ...state,
+          currentlyPlayingDuration:action.currentlyPlayingDuration
+        }
     case "SET_USER":
       return { ...state, user: action.user };
 
@@ -38,7 +47,21 @@ const reducer = (state, action) => {
         ...state,
         item: action.item,
       };
-
+case "SEARCH_TOP_ARTISTS":
+  return{
+    ...state,
+    searchTopArtists:action.searchTopArtists
+  }
+  case "SEARCH_TOP_TRACKS":
+    return{
+      ...state,
+      searchTopTracks:action.searchTopTracks,
+    }
+    case "SEARCH_CATEGORIES":
+      return{
+        ...state,
+        Categories:action.Categories,
+      }
     case "SET_TOP_ARTISTS":
       return {
         ...state,

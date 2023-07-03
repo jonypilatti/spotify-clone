@@ -109,7 +109,7 @@ const ArtistTopTracks = ({ headerBackground }) => {
   const PlayHandler = (index) => {
     if (selected == index && playButton == 1) return <PlayCircleFilled />;
     else if (selected == index && playButton == -1)
-      return <BsFillPauseCircleFill />;
+    return <BsFillPauseCircleFill />;
     else return index + 1;
   };
   // console.log(TopTracks, "tracks");
@@ -160,16 +160,12 @@ const ArtistTopTracks = ({ headerBackground }) => {
                     </div>
                     <div className="info">
                       <span className="name">
-                        {name.length < 29
+                        {name.length < 28
                           ? name + " "
-                          : name.substring(0, 29) + "..."}
+                          : name.substring(0, 28) +"..." }
                       </span>
                       <span className="artists">
-                        {artists.map((el) =>
-                          el.name.length < 18
-                            ? el.name + " "
-                            : el.name.substring(0, 18) + "..."
-                        )}
+                        {artists.length<3 ? artists.map(el=>el.name).join(", ") : artists.map(el=>el.name.length <15 && el.name).join(", ")}
                       </span>
                     </div>
                   </div>

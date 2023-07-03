@@ -44,8 +44,8 @@ function DevicesHandler() {
     dispatch({ type: "SET_PLAYER_STATE", playerState: false });
   }, [selectedId]);
 
-  console.log(selectedId);
-  console.log(availableDevices);
+  // console.log(selectedId);
+  // console.log(availableDevices);
   return (
     <Container>
       <div className="icons">
@@ -125,7 +125,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   position: fixed;
-  bottom: 5rem;
+  bottom: 6.2rem;
   right: 7.5rem;
   max-height: calc(100vh - 114px);
   color: white;

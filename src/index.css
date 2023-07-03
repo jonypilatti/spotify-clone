@@ -3,6 +3,10 @@
   padding: 0;
   box-sizing: border-box;
 }
+@font-face {
+  font-family: "Roboto";
+  src: url("./Roboto/Roboto-Regular.ttf")
+}
 
 body {
   margin: 0;

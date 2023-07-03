@@ -3,13 +3,6 @@ import { useDataLayerValue } from "../DataLayer";
 import axios from "axios";
 import styled from "styled-components";
 import { AiFillClockCircle } from "react-icons/ai";
-import {
-  BsFillPlayCircleFill,
-  BsFillPauseCircleFill,
-  BsShuffle,
-} from "react-icons/bs";
-import { PlayCircleFilled } from "@mui/icons-material";
-import { IconContext } from "react-icons";
 
 function Body({ headerBackground }) {
   const [{ token, selectedPlaylistId, selectedPlaylist }, dispatch] =
@@ -89,9 +82,9 @@ function Body({ headerBackground }) {
         artists,
         image,
       };
-      dispatch({ type: "SET_PLAYING", currentlyPlaying });
-      dispatch({ type: "SET_PLAYER_STATE", playerState: true });
-    } else dispatch({ type: "SET_PLAYER_STATE", playerState: true });
+      await dispatch({ type: "SET_PLAYING", currentlyPlaying });
+      await dispatch({ type: "SET_PLAYER_STATE", playerState: true });
+    } else  await dispatch({ type: "SET_PLAYER_STATE", playerState: true });
   };
 
   return (
@@ -174,9 +167,9 @@ function Body({ headerBackground }) {
                               : name.substring(0, 29) + "..."}
                           </span>
                           <span className="artists">
-                            {artists.join(" ").substring(0, 18).length < 18
-                              ? artists.join(" ")
-                              : artists.join(" ").substring(0, 25) + "..."}
+                            {artists.join(", ").substring(0, 18).length < 18
+                              ? artists.join(", ")
+                              : artists.join(", ").substring(0, 25) + "..."}
                           </span>
                         </div>
                       </div>

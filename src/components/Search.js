@@ -10,6 +10,7 @@ import SearchFilters from "./SearchFilters";
 
 function Search() {
   const [check, setCheck] = useState(true);
+  const [navbar, setNavbar] = useState(false);
   const [filter, setFilter] = useState("all");
   const [boton1, setBoton1] = useState(true);
   const [boton2, setBoton2] = useState(false);
@@ -41,8 +42,8 @@ function Search() {
       <div className="player__body">
         <Sidebar />
         <div className="body" ref={bodyRef} onScroll={bodyScrolled}>
-          <div className="body__avatar">
-            <Avatar setFilter={setFilter} navBackground={navBackground} />
+          <div className="body__avatar" ref={bodyRef} onScroll={bodyScrolled}>
+            <Avatar setFilter={setFilter} navBackground={navBackground} navbar={navbar} />
           </div>
           <SearchFilters
             ref={bodyRef}
@@ -60,14 +61,14 @@ function Search() {
           ></SearchFilters>
           <div className="body__contents">
             {filter === "all" ? (
-              <SearchBody filter={filter} setFilter={setFilter} />
+              <SearchBody filter={filter} setFilter={setFilter} headerBackground={headerBackground} />
             ) : filter === "track" ? (
-              <SearchTrack filter={filter} setFilter={setFilter} />
+              <SearchTrack filter={filter} setFilter={setFilter} headerBackground={headerBackground}/>
             ) : filter == "artist" ? (
-              <SearchArtists filter={filter} setFilter={setFilter} />
+              <SearchArtists filter={filter} setFilter={setFilter} headerBackground={headerBackground} />
             ) : (
               filter === "album" && (
-                <SearchAlbums filter={filter} setFilter={setFilter} />
+                <SearchAlbums filter={filter} setFilter={setFilter} headerBackground={headerBackground}/>
               )
             )}
           </div>
@@ -79,12 +80,11 @@ function Search() {
 
 const Container = styled.div`
   max-width: 100vw;
-  max-height: 100vh;
-  overflow: auto;
+  max-height: 90vh;
   display: grid;
-  grid-template-rows: 100vh;
+  grid-template-rows: 85vh;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y:hidden;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -100,13 +100,17 @@ const Container = styled.div`
     grid-template-columns: 17.62vw 82.8vw;
     height: 100%;
     width: 100%;
+      overflow-y:auto;
+      overflow-x:hidden;
     background: linear-gradient(transparent, rgba(0, 0, 0, 1));
     background-color: rgb(32, 87, 100);
     .body {
       z-index: 0;
       height: 100%;
       width: 100%;
-      overflow: auto;
+      overflow-y:scroll;
+      overflow-x:hidden;
+     
       &::-webkit-scrollbar {
         width: 0.7rem;
         &-thumb {
@@ -118,14 +122,18 @@ const Container = styled.div`
   .body__avatar {
     position: sticky;
     align-self: flex-start;
+    overflow:visible;
     z-index: 10;
+    background-color: ${({ navBackground }) =>
+        navBackground ? "rgb(32, 87, 100)" : "transparent"};
     top: 0;
   }
   .footer {
-    height: 91px;
+    height: 85px;
     width: 100%;
     position: sticky;
     align-self: flex-start;
+    overflow-y:hidden;
     bottom: 0;
     &::-webkit-scrollbar {
       width: 0.7rem;

@@ -6,7 +6,7 @@ import Avatar from "./Avatar";
 import { useDataLayerValue } from "../DataLayer.jsx";
 import DevicesHandler from "./DevicesHandler.jsx";
 
-function Player({ isOpen, setIsOpen }) {
+function Player({ isOpen, setIsOpen}) {
   const [{ token, user }, dispatch] = useDataLayerValue();
   // console.log(user);
   const bodyRef = useRef();
@@ -35,7 +35,6 @@ function Player({ isOpen, setIsOpen }) {
   }, [token, user]);
   return (
     <Container>
-      <div className="all">
         <div className="player__body">
           <Sidebar />
           <div className="body" ref={bodyRef} onScroll={bodyScrolled}>
@@ -54,19 +53,17 @@ function Player({ isOpen, setIsOpen }) {
             ) : null}
           </div>
         </div>
-      </div>
     </Container>
   );
 }
 const Container = styled.div`
   max-width: 100vw;
   max-height: 100vh;
-  overflow: auto;
   display: grid;
-  grid-template-rows: 100vh;
+  grid-template-rows: 86vh;
   overflow-x: hidden;
   overflow-y: scroll;
-  &::-webkit-scrollbar {
+    &::-webkit-scrollbar {
     display: none;
   }
   &::-webkit-scrollbar-thumb {
@@ -99,10 +96,12 @@ const Container = styled.div`
     position: sticky;
     align-self: flex-start;
     z-index: 10;
+    background-color: ${({ navBackground }) =>
+        navBackground ? "rgb(32, 87, 100)" : "transparent"};
     top: 0;
   }
   .footer {
-    height: 91px;
+    height: 85px;
     width: 100%;
     position: sticky;
     align-self: flex-start;

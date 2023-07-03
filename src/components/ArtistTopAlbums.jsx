@@ -138,6 +138,7 @@ const Container = styled.div`
   display: flex;
   overflow-x: hidden;
   margin: 1rem;
+  position:relative;
   .tracklist2 {
     display: flex;
     flex-direction: row;
